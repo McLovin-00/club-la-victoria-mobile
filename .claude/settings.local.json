@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Albo/Desktop/sistema-ingresos-clublavictoria/backend/**)",
+      "Bash(git rm --cached .env)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
