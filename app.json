@@ -1,8 +1,11 @@
 {
   "expo": {
+    "name": "Club la Victoria",
+    "slug": "mobile",
+    "version": "1.0.0",
     "scheme": "club-la-victoria",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -30,12 +33,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.mobile",
+      "package": "com.clublavictoria.mobile",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
@@ -50,6 +53,7 @@
       "eas": {
         "projectId": "de564965-1b71-45ad-a14f-9852b8f81ffb"
       }
-    }
+    },
+    "owner": "albito00"
   }
 }

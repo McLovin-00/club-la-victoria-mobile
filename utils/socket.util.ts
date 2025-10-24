@@ -3,6 +3,7 @@ import { io, Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
 import { logger } from "./logger.util";
 import type { RegistroIngreso } from "../types";
+import { SOCKET_URL as baseUrl } from "@/constants/api-url";
 
 let socket: Socket | null = null;
 
@@ -19,7 +20,6 @@ interface SocketError {
  * @throws Error si la URL no está definida
  */
 function getSocketUrl(): string {
-  const baseUrl = process.env.EXPO_PUBLIC_SOCKETIO_URI;
 
   if (!baseUrl) {
     throw new Error(

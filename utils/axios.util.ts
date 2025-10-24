@@ -1,21 +1,20 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { parseApiError, requiresLogout } from './error-handler.util';
-import { logger } from './logger.util';
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { parseApiError, requiresLogout } from "./error-handler.util";
+import { logger } from "./logger.util";
+import { API_URL as apiUrl } from "../constants/api-url";
 
 /**
  * Valida y obtiene la URL del API
  * @throws Error si la URL no está definida
  */
 function getApiUrl(): string {
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-
   if (!apiUrl) {
     throw new Error(
-      'EXPO_PUBLIC_API_URL no está definida. Verifica tu archivo .env'
+      "EXPO_PUBLIC_API_URL no está definida. Verifica tu archivo .env"
     );
   }
 
-  logger.category('Axios').debug('API URL configurada', { apiUrl });
+  logger.category("Axios").debug("API URL configurada", { apiUrl });
 
   return apiUrl;
 }
@@ -23,7 +22,7 @@ function getApiUrl(): string {
 export const axiosBase = axios.create({
   baseURL: getApiUrl(),
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   timeout: 30000, // 30 segundos
 });
@@ -58,11 +57,11 @@ axiosBase.interceptors.response.use(
       // Aquí puedes agregar lógica para cerrar sesión
       // await AsyncStorage.removeItem('authToken');
       // navigation.navigate('Login');
-      console.log('Error de autenticación, se requiere login');
+      console.log("Error de autenticación, se requiere login");
     }
 
     // Logging en desarrollo
-    logger.category('Axios').error('API Error', {
+    logger.category("Axios").error("API Error", {
       message,
       errorCode,
       statusCode,

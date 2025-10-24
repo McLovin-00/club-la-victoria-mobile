@@ -1,4 +1,4 @@
-import { CameraView } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { Stack, useRouter, useFocusEffect } from "expo-router";
 import {
   AppState,
@@ -16,6 +16,23 @@ export default function Scanner() {
   const router = useRouter();
   const qrLock = useRef(false);
   const appState = useRef(AppState.currentState);
+  const [permission, requestPermission] = useCameraPermissions();
+
+  // Solicitar permisos automáticamente al montar
+  useEffect(() => {
+    (async () => {
+      if (!permission) return;
+      
+      if (!permission.granted) {
+        const result = await requestPermission();
+        if (!result.granted) {
+          logger.category('Scanner').warn('Permisos de cámara denegados');
+          showErrorToast('Se requieren permisos de cámara para escanear QR');
+          router.replace("/acceso-club");
+        }
+      }
+    })();
+  }, [permission]);
 
   // Reset del lock al volver a foreground
   useEffect(() => {
@@ -58,6 +75,15 @@ export default function Scanner() {
       router.push(`/acceso-club/socio/${dni}`);
     }, 120);
   };
+
+  // Si no hay permisos aún, no renderizar nada (se solicitarán automáticamente)
+  if (!permission?.granted) {
+    return (
+      <SafeAreaView style={StyleSheet.absoluteFillObject} edges={[]}>
+        <Stack.Screen options={{ headerShown: false }} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject} edges={[]}>
