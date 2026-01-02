@@ -45,7 +45,7 @@ export interface Persona {
 export interface RegistroIngreso {
   idIngreso: number;
   fechaHoraIngreso: string;
-  habilitaPileta: boolean; 
+  habilitaPileta: boolean;
   tipoIngreso: TipoIngreso;
   idSocio: number | null;
   socio: Persona | null;
@@ -135,8 +135,8 @@ export default function HabilitadosPiletaScreen() {
             isLoading
               ? "Cargando registros..."
               : registros.length
-              ? "DNI / Nombre"
-              : "No hay registros para buscar"
+                ? "DNI / Nombre"
+                : "No hay registros para buscar"
           }
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -251,9 +251,9 @@ export default function HabilitadosPiletaScreen() {
 
                 <View style={styles.rightContent}>
                   <Text style={styles.time}>
-                    {registro.fechaHoraIngreso.split("T")[1].split(":")[0]}
+                    {new Date(registro.fechaHoraIngreso).getHours().toString().padStart(2, '0')}
                     :
-                    {registro.fechaHoraIngreso.split("T")[1].split(":")[1]}
+                    {new Date(registro.fechaHoraIngreso).getMinutes().toString().padStart(2, '0')}
                   </Text>
                   {registro.tipoIngreso === "NO_SOCIO" && (
                     <View style={styles.noSocioTag}>

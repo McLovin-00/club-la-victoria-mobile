@@ -85,7 +85,9 @@ export default function SocioPileta({ socio }: SocioPiletaProps) {
           <View style={sharedStyles.detailsSection}>
             <View style={sharedStyles.detailRow}>
               <Ionicons name="card" size={20} color={colors.gray600} />
-              <Text style={sharedStyles.detailText}>DNI: {socio.dni}</Text>
+              <Text style={sharedStyles.detailText}>
+                DNI: {socio.dni || "Sin DNI cargado"}
+              </Text>
             </View>
 
             <View style={sharedStyles.detailRow}>

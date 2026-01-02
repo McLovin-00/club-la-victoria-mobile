@@ -20,7 +20,7 @@ export interface Socio {
   id?: number;
   nombre: string;
   apellido: string;
-  dni: string;
+  dni?: string;
   telefono?: string;
   email?: string;
   fechaAlta?: string;

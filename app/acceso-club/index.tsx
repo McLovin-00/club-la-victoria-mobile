@@ -12,10 +12,12 @@ import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import { useRouter } from "expo-router";
+import SocioSearchModal from "../../components/SocioSearchModal";
 
 export default function ClubAccessScreen() {
   const [dni, setDni] = useState("");
   const [dniError, setDniError] = useState("");
+  const [showSearchModal, setShowSearchModal] = useState(false);
 
   const router = useRouter();
 
@@ -111,6 +113,53 @@ export default function ClubAccessScreen() {
         >
           <Text style={styles.searchButtonText}>Buscar por DNI</Text>
         </TouchableOpacity>
+
+        {/* Divider */}
+        <View style={[styles.dividerContainer, { marginVertical: 20 }]}>
+          <View style={styles.dividerLine} />
+          <Text style={styles.dividerText}>o</Text>
+          <View style={styles.dividerLine} />
+        </View>
+
+        {/* Botón búsqueda por nombre */}
+        <TouchableOpacity
+          style={styles.nameSearchButton}
+          onPress={() => setShowSearchModal(true)}
+        >
+          <Ionicons name="search-outline" size={20} color="#0ea5e9" />
+          <Text style={styles.nameSearchButtonText}>Buscar por nombre</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Modal búsqueda */}
+      <SocioSearchModal
+        visible={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+        onSelectSocio={(socio) => {
+          setShowSearchModal(false);
+          router.push(`/acceso-club/socio/${socio.id}`);
+        }}
+      />
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        <TouchableOpacity
+          style={[styles.footerButton, styles.footerButtonActive]}
+          onPress={() => router.push("/acceso-club")}
+        >
+          <Ionicons name="home-outline" size={24} color="#06b6d4" />
+          <Text style={[styles.footerButtonText, styles.footerButtonTextActive]}>
+            Acceso Club
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => router.push("/pileta")}
+        >
+          <Ionicons name="water-outline" size={24} color="#6b7280" />
+          <Text style={styles.footerButtonText}>Validación Pileta</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -145,7 +194,8 @@ const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     paddingHorizontal: 28,
-    paddingTop: 60,
+    paddingTop: 40,
+    paddingBottom: 20,
     justifyContent: "center",
   },
   scanButton: {
@@ -236,5 +286,45 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     color: "#2D9D78",
+  },
+  nameSearchButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f0f9ff",
+    paddingVertical: 16,
+    borderRadius: 28,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: "#0ea5e9",
+  },
+  nameSearchButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#0ea5e9",
+  },
+  footer: {
+    flexDirection: "row",
+    borderTopWidth: 1,
+    borderTopColor: "#e5e7eb",
+    paddingVertical: 8,
+    backgroundColor: "#fff",
+  },
+  footerButton: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 8,
+  },
+  footerButtonActive: {
+    borderTopWidth: 2,
+    borderTopColor: "#06b6d4",
+  },
+  footerButtonText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: "#6b7280",
+  },
+  footerButtonTextActive: {
+    color: "#06b6d4",
   },
 });
