@@ -50,6 +50,8 @@ export interface RegistroIngreso {
   idSocio: number | null;
   socio: Persona | null;
   dniNoSocio: string | null;
+  nombreNoSocio: string | null;
+  apellidoNoSocio: string | null;
   importe: number | null;
   metodoPago: MetodoPago | null;
 }
@@ -102,7 +104,9 @@ export default function HabilitadosPiletaScreen() {
     return registros.filter((r) => {
       const nombre = r.socio
         ? `${r.socio.nombre} ${r.socio.apellido}`.toLowerCase()
-        : "no socio";
+        : r.nombreNoSocio && r.apellidoNoSocio
+          ? `${r.nombreNoSocio} ${r.apellidoNoSocio}`.toLowerCase()
+          : "no socio";
       const dni = (r.socio?.dni ?? r.dniNoSocio ?? "").toLowerCase();
       return nombre.includes(q) || dni.includes(q);
     });
@@ -218,7 +222,9 @@ export default function HabilitadosPiletaScreen() {
                   <Text style={styles.personName}>
                     {registro.socio
                       ? `${registro.socio.nombre} ${registro.socio.apellido}`
-                      : "No Socio"}
+                      : registro.nombreNoSocio && registro.apellidoNoSocio
+                        ? `${registro.nombreNoSocio} ${registro.apellidoNoSocio}`
+                        : "No Socio"}
                   </Text>
                   <Text style={styles.personDni}>
                     DNI: {registro.socio?.dni || registro.dniNoSocio}

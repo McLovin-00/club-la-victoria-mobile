@@ -26,22 +26,38 @@ export default function NoSocio({ dni }: NoSocioProps) {
   const router = useRouter();
   const { handleError } = useIngresoError();
 
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [metodoPago, setMetodoPago] = useState<MetodoPago | undefined>(undefined);
   const [importe, setImporte] = useState("");
   const [habilitarPileta, setHabilitarPileta] = useState(false);
+  const [nombreError, setNombreError] = useState("");
+  const [apellidoError, setApellidoError] = useState("");
   const [metodoPagoError, setMetodoPagoError] = useState("");
   const [importeError, setImporteError] = useState("");
 
   const handleRegistrarIngreso = async () => {
     // Reset errors
+    setNombreError("");
+    setApellidoError("");
     setImporteError("");
     setMetodoPagoError("");
 
     // Validaciones
+    const nombreValido = nombre.trim().length > 0;
+    const apellidoValido = apellido.trim().length > 0;
     const importeValido = importe.trim() && !isNaN(Number(importe)) && Number(importe) > 0;
     const metodoPagoValido = !!metodoPago;
 
     // Establecer errores si no son válidos
+    if (!nombreValido) {
+      setNombreError("⚠️ Ingresa el nombre");
+    }
+
+    if (!apellidoValido) {
+      setApellidoError("⚠️ Ingresa el apellido");
+    }
+
     if (!importeValido) {
       setImporteError("⚠️ Ingresa un importe válido mayor a $0");
     }
@@ -51,7 +67,7 @@ export default function NoSocio({ dni }: NoSocioProps) {
     }
 
     // Solo proceder si todo es válido
-    if (!importeValido || !metodoPagoValido) {
+    if (!nombreValido || !apellidoValido || !importeValido || !metodoPagoValido) {
       return;
     }
 
@@ -59,6 +75,8 @@ export default function NoSocio({ dni }: NoSocioProps) {
       const registroIngreso: CreateRegistroIngresoDto = {
         idSocio: undefined,
         dniNoSocio: dni,
+        nombreNoSocio: nombre.trim(),
+        apellidoNoSocio: apellido.trim(),
         tipoIngreso: TipoIngreso.NO_SOCIO,
         habilitaPileta: habilitarPileta,
         metodoPago: metodoPago,
@@ -88,6 +106,55 @@ export default function NoSocio({ dni }: NoSocioProps) {
           {/* Información básica */}
           <View style={sharedStyles.infoSection}>
             <Text style={sharedStyles.name}>DNI: {dni}</Text>
+          </View>
+
+          {/* Datos personales */}
+          <View style={sharedStyles.card}>
+            <Text style={sharedStyles.subtitle}>Datos Personales</Text>
+
+            {/* Nombre */}
+            <View style={styles.inputGroup}>
+              <Text style={sharedStyles.label}>Nombre</Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  nombreError && sharedStyles.inputError,
+                ]}
+                value={nombre}
+                onChangeText={(text) => {
+                  setNombre(text);
+                  if (nombreError) setNombreError("");
+                }}
+                placeholder="Ingrese el nombre"
+                placeholderTextColor={colors.gray600}
+                autoCapitalize="words"
+              />
+              {nombreError && (
+                <Text style={sharedStyles.errorText}>{nombreError}</Text>
+              )}
+            </View>
+
+            {/* Apellido */}
+            <View style={styles.inputGroup}>
+              <Text style={sharedStyles.label}>Apellido</Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  apellidoError && sharedStyles.inputError,
+                ]}
+                value={apellido}
+                onChangeText={(text) => {
+                  setApellido(text);
+                  if (apellidoError) setApellidoError("");
+                }}
+                placeholder="Ingrese el apellido"
+                placeholderTextColor={colors.gray600}
+                autoCapitalize="words"
+              />
+              {apellidoError && (
+                <Text style={sharedStyles.errorText}>{apellidoError}</Text>
+              )}
+            </View>
           </View>
 
           {/* Configuración de pileta */}
@@ -230,6 +297,16 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     marginBottom: spacing.xl,
+  },
+  textInput: {
+    backgroundColor: colors.gray50,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.gray300,
+    fontSize: fontSize.md,
+    color: colors.gray900,
   },
   radioGroupError: {
     borderWidth: 2,

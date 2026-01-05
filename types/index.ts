@@ -61,6 +61,8 @@ export interface Persona {
 export interface CreateRegistroIngresoDto {
   idSocio?: number;
   dniNoSocio?: string;
+  nombreNoSocio?: string;
+  apellidoNoSocio?: string;
   tipoIngreso: TipoIngreso;
   habilitaPileta: boolean;
   metodoPago?: MetodoPago;
@@ -78,6 +80,8 @@ export interface RegistroIngreso {
   idSocio: number | null;
   socio: Persona | null;
   dniNoSocio: string | null;
+  nombreNoSocio: string | null;
+  apellidoNoSocio: string | null;
   importe: number | null;
   metodoPago: MetodoPago | null;
 }
