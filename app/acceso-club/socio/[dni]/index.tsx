@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, StatusBar } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { TipoPersona } from "../../../../constants/tipo-persona";
 import Header from "../../../../components/Header";
 import { axiosBase } from "../../../../utils/axios.util";
@@ -10,10 +11,12 @@ import SocioPileta from "../../../../components/SocioPileta";
 import SocioClub from "../../../../components/SocioClub";
 import { useApiError } from "../../../../hooks/useApiError";
 import { logger } from "../../../../utils/logger.util";
+import { colors, sharedStyles, spacing } from "../../../../styles/shared.styles";
 import type { Socio, ApiSocioResponse } from "../../../../types";
 
 export default function SocioByDni() {
   const { dni } = useLocalSearchParams<{ dni: string }>();
+  const router = useRouter();
   const { handleError } = useApiError({
     redirectOnError: '/acceso-club',
   });
@@ -25,8 +28,11 @@ export default function SocioByDni() {
     const loadSocioData = async () => {
       try {
         const response = await axiosBase.get(`socios/registro/${dni}`);
-        const { socio: socioData, tipoPersona: tipoPersonaData } =
-          response.data as ApiSocioResponse;
+        const {
+          socio: socioData,
+          tipoPersona: tipoPersonaData,
+          certificadoMedicoPresentado,
+        } = response.data as ApiSocioResponse;
 
         logger.category('SocioByDni').debug('Socio cargado', {
           tipoPersona: tipoPersonaData,
@@ -34,7 +40,11 @@ export default function SocioByDni() {
         });
 
         if (socioData) {
-          setSocio({ ...socioData, tipo: tipoPersonaData });
+          setSocio({
+            ...socioData,
+            tipo: tipoPersonaData,
+            certificadoMedicoPresentado,
+          });
         } else {
           setSocio({
             nombre: "",
@@ -49,11 +59,11 @@ export default function SocioByDni() {
             genero: "",
             fotoUrl: "",
             tipo: tipoPersonaData,
+            certificadoMedicoPresentado,
           });
         }
         setIsLoading(false);
       } catch (error) {
-        // ✅ Usa el sistema centralizado de manejo de errores
         logger.category('SocioByDni').error("Error cargando socio", error);
         handleError(error);
         setIsLoading(false);
@@ -63,32 +73,41 @@ export default function SocioByDni() {
     loadSocioData();
   }, [dni]);
 
-  // Mostrar spinner mientras buscamos
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={sharedStyles.container} edges={["top", "bottom"]}>
+        <StatusBar barStyle="dark-content" backgroundColor={colors.surface} />
         <Header title="Buscando" backRoute="/acceso-club" />
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0ea5e9" />
-          <Text style={styles.loadingText}>Buscando persona...</Text>
+        <View style={sharedStyles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={sharedStyles.loadingText}>Buscando persona...</Text>
         </View>
       </SafeAreaView>
     );
   }
 
-  // Si no se pudo determinar el tipo de persona después de la búsqueda, mostrar error
   if (!socio || !socio.tipo) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={sharedStyles.container} edges={["top", "bottom"]}>
+        <StatusBar barStyle="dark-content" backgroundColor={colors.surface} />
         <Header title="Error" backRoute="/acceso-club" />
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>No se pudo determinar el tipo de persona</Text>
+        <View style={sharedStyles.loadingContainer}>
+          <Ionicons name="alert-circle-outline" size={44} color={colors.errorAccent} />
+          <Text style={sharedStyles.loadingText}>
+            No se pudo determinar el tipo de persona
+          </Text>
+          <TouchableOpacity
+            style={[sharedStyles.secondaryButton, styles.backAction]}
+            onPress={() => router.push("/acceso-club")}
+            activeOpacity={0.8}
+          >
+            <Text style={sharedStyles.secondaryButtonText}>Volver a Acceso Club</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
   }
 
-  // Renderizar componente según el tipo de persona
   switch (socio.tipo) {
     case TipoPersona.NOSOCIO:
       return <NoSocio dni={dni} />;
@@ -105,18 +124,8 @@ export default function SocioByDni() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8F9FA",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    fontSize: 16,
-    color: "#6C757D",
-    marginTop: 10,
+  backAction: {
+    marginTop: spacing.xl,
+    paddingHorizontal: spacing.xxl,
   },
 });

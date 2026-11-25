@@ -30,6 +30,7 @@ export interface Socio {
   genero?: string;
   fotoUrl?: string;
   tipo: TipoPersona;
+  certificadoMedicoPresentado?: boolean | null;
 }
 
 /**
@@ -96,6 +97,7 @@ export interface RegistroIngreso {
 export interface ApiSocioResponse {
   socio: Socio | null;
   tipoPersona: TipoPersona;
+  certificadoMedicoPresentado: boolean | null;
 }
 
 /**

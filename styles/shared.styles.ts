@@ -1,50 +1,63 @@
 /**
- * Estilos compartidos entre componentes
- * Evita duplicación y mantiene consistencia visual
+ * Estilos y tokens de diseño compartidos para Club La Victoria Mobile
+ * Sistema visual unificado, accesible y optimizado para uso en exteriores
  */
 
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 /**
- * Colores del tema
+ * Paleta semántica armonizada con la identidad del club
  */
 export const colors = {
-  // Primarios
-  primary: '#2DD4BF',
-  primaryLight: '#B8E6D5',
-  primaryDark: '#2D9D78',
+  // Primarios (verde esmeralda institucional, WCAG AA >= 5.3:1 sobre blanco)
+  primary: '#157A5A',
+  primaryPressed: '#106147',
+  primaryLight: '#E6F4EE',
+  primaryBorder: '#B5DFCE',
+  primaryDark: '#0F5941',
 
   // Estados
-  success: '#D4EDDA',
-  successText: '#155724',
-  error: '#F8D7DA',
-  errorText: '#721C24',
-  warning: '#FFF3CD',
-  warningText: '#856404',
+  success: '#DCFCE7',
+  successBorder: '#BBF7D0',
+  successText: '#166534',
+  error: '#FEE2E2',
+  errorBorder: '#FECACA',
+  errorText: '#991B1B',
+  errorAccent: '#DC2626',
+  errorBg: '#FEF2F2',
+  warning: '#FEF3C7',
+  warningBorder: '#FDE68A',
+  warningText: '#92400E',
+  info: '#E0F2FE',
+  infoText: '#075985',
 
-  // Neutros
+  // Neutros armonizados (tinte verde muy sutil para calidez y cohesión)
   white: '#FFFFFF',
-  black: '#1A1A1A',
-  gray50: '#F8F9FA',
-  gray100: '#F5F5F5',
-  gray200: '#E9ECEF',
-  gray300: '#DEE2E6',
-  gray400: '#CED4DA',
-  gray500: '#ADB5BD',
-  gray600: '#6C757D',
-  gray700: '#495057',
-  gray800: '#343A40',
-  gray900: '#212529',
+  black: '#111B16',
+  gray50: '#F4F7F5',
+  gray100: '#EDF2EF',
+  gray200: '#E2E8E4',
+  gray300: '#CBD5CF',
+  gray400: '#9AA8A0',
+  gray500: '#6B7A72',
+  gray600: '#52635A',
+  gray700: '#37473F',
+  gray800: '#212E27',
+  gray900: '#111B16',
 
-  // Específicos
-  background: '#F8F9FA',
-  border: '#E0E0E0',
-  placeholder: '#999999',
-  disabled: '#E0E0E0',
+  // Específicos de superficie
+  background: '#F4F7F5',
+  surface: '#FFFFFF',
+  surfaceSubtle: '#F8FAF9',
+  border: '#E2E8E4',
+  borderStrong: '#CBD5CF',
+  placeholder: '#7A8A82',
+  disabled: '#E5ECE8',
+  disabledText: '#8A9B92',
 };
 
 /**
- * Espaciados consistentes
+ * Escala de espaciado (múltiplos de 4)
  */
 export const spacing = {
   xs: 4,
@@ -57,7 +70,7 @@ export const spacing = {
 };
 
 /**
- * Tamaños de fuente
+ * Escala tipográfica consistente
  */
 export const fontSize = {
   xs: 12,
@@ -71,53 +84,59 @@ export const fontSize = {
 };
 
 /**
- * Border radius
+ * Radios de borde consistentes
  */
 export const borderRadius = {
-  sm: 4,
-  md: 8,
-  lg: 12,
-  xl: 16,
-  xxl: 20,
+  sm: 6,
+  md: 10,
+  lg: 14,
+  xl: 18,
+  xxl: 24,
   full: 9999,
 };
 
 /**
- * Sombras
+ * Elevación sutil (bordes finos + sombra suave orientada hacia abajo)
  */
 export const shadows = {
   sm: {
-    shadowColor: '#000',
+    shadowColor: '#0F241B',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
-    shadowRadius: 2,
+    shadowRadius: 3,
     elevation: 1,
   },
   md: {
-    shadowColor: '#000',
+    shadowColor: '#0F241B',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOpacity: 0.07,
+    shadowRadius: 6,
     elevation: 2,
   },
   lg: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowColor: '#0F241B',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 3,
   },
   xl: {
-    shadowColor: '#000',
+    shadowColor: '#0F5941',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6,
+    shadowOpacity: 0.18,
+    shadowRadius: 10,
+    elevation: 4,
   },
 };
 
+const tabularNums = Platform.select({
+  ios: { fontVariant: ['tabular-nums' as const] },
+  android: { fontVariant: ['tabular-nums' as const] },
+  default: { fontVariant: ['tabular-nums' as const] },
+});
+
 /**
- * Estilos compartidos de contenedores
+ * Estilos compartidos de contenedores y controles
  */
 export const sharedStyles = StyleSheet.create({
   // ============================================
@@ -130,66 +149,82 @@ export const sharedStyles = StyleSheet.create({
 
   content: {
     flex: 1,
-    paddingHorizontal: spacing.xl,
+    paddingHorizontal: spacing.lg,
   },
 
   scrollContent: {
-    paddingBottom: spacing.xl,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.xxxl,
   },
 
   // ============================================
   // CARDS Y SECCIONES
   // ============================================
   card: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: borderRadius.xl,
     padding: spacing.xl,
-    marginBottom: spacing.lg,
-    ...shadows.lg,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.sm,
   },
 
   infoSection: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: borderRadius.xl,
     padding: spacing.xl,
-    marginBottom: spacing.lg,
-    ...shadows.lg,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.sm,
   },
 
   // ============================================
   // TEXTOS
   // ============================================
   title: {
-    fontSize: fontSize.xxxl,
-    fontWeight: 'bold',
+    fontSize: fontSize.xxl,
+    fontWeight: '700',
     color: colors.gray900,
+    letterSpacing: -0.4,
   },
 
   subtitle: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
+    fontSize: fontSize.md,
+    fontWeight: '700',
     color: colors.gray900,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
+    letterSpacing: -0.2,
   },
 
   name: {
-    fontSize: fontSize.xxxl,
-    fontWeight: 'bold',
+    fontSize: fontSize.xxl,
+    fontWeight: '700',
     color: colors.gray900,
-    flex: 1,
+    letterSpacing: -0.3,
+    textAlign: 'center',
   },
 
   detailText: {
     fontSize: fontSize.md,
-    color: colors.gray700,
-    marginLeft: spacing.lg,
+    color: colors.gray800,
     flex: 1,
+    fontWeight: '500',
+    ...tabularNums,
+  },
+
+  detailLabelInline: {
+    fontSize: fontSize.xs,
+    color: colors.gray500,
+    fontWeight: '500',
+    marginBottom: 2,
   },
 
   label: {
-    fontSize: fontSize.md,
+    fontSize: fontSize.sm,
     color: colors.gray700,
-    fontWeight: '500',
+    fontWeight: '600',
     marginBottom: spacing.sm,
   },
 
@@ -197,22 +232,35 @@ export const sharedStyles = StyleSheet.create({
   // BADGES Y STATUS
   // ============================================
   statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs + 2,
-    borderRadius: borderRadius.xxl,
+    paddingVertical: 5,
+    borderRadius: borderRadius.full,
+    borderWidth: 1,
   },
 
   activeBadge: {
     backgroundColor: colors.success,
+    borderColor: colors.successBorder,
   },
 
   inactiveBadge: {
     backgroundColor: colors.error,
+    borderColor: colors.errorBorder,
+  },
+
+  statusDot: {
+    width: 7,
+    height: 7,
+    borderRadius: borderRadius.full,
   },
 
   statusText: {
     fontSize: fontSize.xs,
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
 
   activeText: {
@@ -228,38 +276,41 @@ export const sharedStyles = StyleSheet.create({
   // ============================================
   photoContainer: {
     alignItems: 'center',
-    marginBottom: spacing.xl,
+    marginBottom: spacing.md,
   },
 
   photo: {
-    width: 150,
-    height: 150,
+    width: 112,
+    height: 112,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.gray200,
+    backgroundColor: colors.gray100,
     borderWidth: 3,
-    borderColor: colors.primary,
+    borderColor: colors.primaryBorder,
   },
 
   photoPlaceholder: {
-    width: 150,
-    height: 150,
+    width: 112,
+    height: 112,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.gray200,
+    backgroundColor: colors.gray100,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: colors.gray300,
+    borderWidth: 2,
+    borderColor: colors.border,
   },
 
   // ============================================
   // DETALLES
   // ============================================
   detailsSection: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: borderRadius.xl,
-    padding: spacing.xl,
-    marginBottom: spacing.xxl,
-    ...shadows.lg,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.sm,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.sm,
   },
 
   detailRow: {
@@ -267,7 +318,21 @@ export const sharedStyles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray200,
+    borderBottomColor: colors.gray100,
+    gap: spacing.md,
+  },
+
+  detailRowLast: {
+    borderBottomWidth: 0,
+  },
+
+  detailIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: borderRadius.md,
+    backgroundColor: colors.gray50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   // ============================================
@@ -275,34 +340,40 @@ export const sharedStyles = StyleSheet.create({
   // ============================================
   primaryButton: {
     backgroundColor: colors.primary,
-    paddingVertical: spacing.lg + 2,
-    borderRadius: borderRadius.xl,
+    minHeight: 54,
+    paddingVertical: 15,
+    paddingHorizontal: spacing.xl,
+    borderRadius: borderRadius.lg,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing.md,
+    gap: spacing.sm + 2,
     ...shadows.xl,
   },
 
   primaryButtonText: {
     color: colors.white,
-    fontSize: fontSize.lg,
-    fontWeight: '600',
+    fontSize: fontSize.md,
+    fontWeight: '700',
+    letterSpacing: 0.1,
   },
 
   secondaryButton: {
-    backgroundColor: colors.white,
-    paddingVertical: spacing.lg + 2,
-    borderRadius: borderRadius.xl,
-    borderWidth: 2,
-    borderColor: colors.gray600,
+    backgroundColor: colors.surface,
+    minHeight: 52,
+    paddingVertical: 14,
+    paddingHorizontal: spacing.xl,
+    borderRadius: borderRadius.lg,
+    borderWidth: 1.5,
+    borderColor: colors.borderStrong,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    ...shadows.md,
+    gap: spacing.sm,
   },
 
   secondaryButtonText: {
-    color: colors.gray600,
+    color: colors.gray700,
     fontSize: fontSize.md,
     fontWeight: '600',
   },
@@ -311,26 +382,34 @@ export const sharedStyles = StyleSheet.create({
   // FORMULARIOS
   // ============================================
   input: {
-    backgroundColor: colors.gray50,
+    backgroundColor: colors.surfaceSubtle,
     borderRadius: borderRadius.md,
     paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
+    paddingVertical: 13,
     fontSize: fontSize.md,
     color: colors.gray900,
     borderWidth: 1,
-    borderColor: colors.gray300,
+    borderColor: colors.borderStrong,
+    minHeight: 48,
   },
 
   inputError: {
-    borderColor: '#DC3545',
-    backgroundColor: '#FFF5F5',
+    borderColor: colors.errorAccent,
+    backgroundColor: colors.errorBg,
+  },
+
+  errorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: spacing.xs + 2,
   },
 
   errorText: {
     fontSize: fontSize.sm,
-    color: '#DC3545',
-    marginTop: spacing.xs,
+    color: colors.errorAccent,
     fontWeight: '500',
+    flex: 1,
   },
 
   // ============================================
@@ -341,19 +420,21 @@ export const sharedStyles = StyleSheet.create({
     height: 24,
     borderRadius: borderRadius.sm,
     borderWidth: 2,
-    borderColor: colors.primary,
+    borderColor: colors.borderStrong,
+    backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   checkboxChecked: {
     backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
 
   checkboxLabel: {
     fontSize: fontSize.md,
-    color: colors.gray700,
-    fontWeight: '500',
+    color: colors.gray900,
+    fontWeight: '600',
   },
 
   radio: {
@@ -361,7 +442,8 @@ export const sharedStyles = StyleSheet.create({
     height: 20,
     borderRadius: borderRadius.full,
     borderWidth: 2,
-    borderColor: colors.primary,
+    borderColor: colors.borderStrong,
+    backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -379,8 +461,9 @@ export const sharedStyles = StyleSheet.create({
   },
 
   radioLabel: {
-    fontSize: fontSize.md,
-    color: colors.gray700,
+    fontSize: fontSize.sm,
+    color: colors.gray800,
+    fontWeight: '600',
   },
 
   // ============================================
@@ -409,12 +492,15 @@ export const sharedStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: spacing.xxl,
   },
 
   loadingText: {
     fontSize: fontSize.md,
     color: colors.gray600,
-    marginTop: spacing.sm + 2,
+    marginTop: spacing.md,
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });
 
@@ -425,14 +511,16 @@ export const tipoPersonaStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.lg,
-    alignSelf: 'flex-start',
+    gap: 6,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 5,
+    borderRadius: borderRadius.full,
+    borderWidth: 1,
   },
 
   club: {
     backgroundColor: colors.warning,
+    borderColor: colors.warningBorder,
   },
 
   clubText: {
@@ -440,16 +528,17 @@ export const tipoPersonaStyles = StyleSheet.create({
   },
 
   pileta: {
-    backgroundColor: colors.success,
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primaryBorder,
   },
 
   piletaText: {
-    color: colors.successText,
+    color: colors.primaryDark,
   },
 
   text: {
-    fontSize: fontSize.md,
-    marginLeft: spacing.sm,
-    fontWeight: '500',
+    fontSize: fontSize.xs,
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
 });

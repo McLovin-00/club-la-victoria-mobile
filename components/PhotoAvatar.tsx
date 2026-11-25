@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
-import { sharedStyles } from '../styles/shared.styles';
+import { colors, sharedStyles } from '../styles/shared.styles';
 
 interface PhotoAvatarProps {
   /**
@@ -10,7 +10,7 @@ interface PhotoAvatarProps {
   fotoUrl?: string;
 
   /**
-   * Tamaño del avatar (default: 150)
+   * Tamaño del avatar (default: 112)
    */
   size?: number;
 
@@ -22,13 +22,10 @@ interface PhotoAvatarProps {
 
 /**
  * Componente reutilizable para mostrar foto de perfil con placeholder
- * @param fotoUrl - URL de la imagen
- * @param size - Tamaño del avatar
- * @param bordered - Si debe tener borde de color
  */
 export function PhotoAvatar({
   fotoUrl,
-  size = 150,
+  size = 112,
   bordered = true,
 }: PhotoAvatarProps) {
   const avatarStyles = {
@@ -59,7 +56,7 @@ export function PhotoAvatar({
         !bordered && { borderWidth: 0 },
       ]}
     >
-      <Feather name="user" size={size * 0.4} color="#999" />
+      <Feather name="user" size={Math.round(size * 0.4)} color={colors.gray400} />
     </View>
   );
 }

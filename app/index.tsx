@@ -8,7 +8,14 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ClubLogo } from '../components/ClubLogo';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  borderRadius,
+  colors,
+  fontSize,
+  shadows,
+  spacing,
+} from '../styles/shared.styles';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -22,47 +29,43 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5"  />
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+      <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
 
-      {/* Main Content */}
       <View style={styles.mainContent}>
-        {/* Logo */}
-        <View style={styles.logoContainer}>
-          <ClubLogo width={160} height={192} />
+        <View style={styles.logoBadge}>
+          <ClubLogo width={132} height={158} />
         </View>
 
-        {/* Title */}
         <Text style={styles.title}>Control de accesos</Text>
-        
-        {/* Subtitle */}
+
         <Text style={styles.subtitle}>
           Para continuar, por favor elegir "Acceso Club" o "Ver ingresos pileta".
         </Text>
 
-        {/* Buttons */}
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
             style={[styles.button, styles.primaryButton]}
             onPress={handleAccesoClub}
-            activeOpacity={0.8}
+            activeOpacity={0.85}
+            accessibilityRole="button"
           >
-            <Ionicons name="enter-outline" size={24} color="#FFFFFF" style={styles.buttonIcon} />
+            <Ionicons name="enter-outline" size={22} color={colors.white} />
             <Text style={styles.primaryButtonText}>Acceso Club</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.button, styles.secondaryButton]}
             onPress={handleVerIngresosPileta}
-            activeOpacity={0.8}
+            activeOpacity={0.85}
+            accessibilityRole="button"
           >
-            <Ionicons name="eye-outline" size={24} color="#2D9D78" style={styles.buttonIcon} />
+            <Ionicons name="water-outline" size={22} color={colors.primaryDark} />
             <Text style={styles.secondaryButtonText}>Ver ingresos pileta</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>Club La Victoria © 2024</Text>
       </View>
@@ -73,117 +76,85 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'center',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-  },
-  headerIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#B8E6D5',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  headerIconText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#2D9D78',
-  },
-  headerTitle: {
-    flex: 1,
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#1A1A1A',
-  },
-  statusIndicator: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#2DD4BF',
+    backgroundColor: colors.background,
   },
   mainContent: {
     flex: 1,
-    paddingHorizontal: 28,
-    paddingTop: 40,
+    paddingHorizontal: spacing.xxl,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoContainer: {
-    marginBottom: 32,
+  logoBadge: {
+    width: 176,
+    height: 196,
+    borderRadius: borderRadius.xxl,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.xxl,
+    ...shadows.md,
   },
   title: {
-    fontSize: 32,
+    fontSize: fontSize.xxxl,
     fontWeight: '700',
-    color: '#1A1A1A',
-    marginBottom: 16,
+    color: colors.gray900,
+    marginBottom: spacing.sm + 2,
     textAlign: 'center',
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666666',
+    fontSize: fontSize.md,
+    color: colors.gray600,
     textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 40,
-    paddingHorizontal: 10,
+    lineHeight: 23,
+    marginBottom: spacing.xxxl,
+    maxWidth: 310,
   },
   buttonsContainer: {
     width: '100%',
-    gap: 16,
+    maxWidth: 360,
+    gap: spacing.md,
   },
   button: {
     width: '100%',
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    borderRadius: 28,
+    minHeight: 56,
+    paddingVertical: 16,
+    paddingHorizontal: spacing.xl,
+    borderRadius: borderRadius.lg,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    gap: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  buttonIcon: {
-    marginRight: 8,
+    gap: 10,
   },
   primaryButton: {
-    backgroundColor: '#2DD4BF',
+    backgroundColor: colors.primary,
+    ...shadows.xl,
   },
   primaryButtonText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontSize: fontSize.md + 1,
+    fontWeight: '700',
+    color: colors.white,
+    letterSpacing: 0.1,
   },
   secondaryButton: {
-    backgroundColor: '#B8E6D5',
+    backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.primaryBorder,
+    ...shadows.sm,
   },
   secondaryButtonText: {
-    fontSize: 18,
+    fontSize: fontSize.md + 1,
     fontWeight: '600',
-    color: '#2D9D78',
+    color: colors.primaryDark,
   },
   footer: {
-    paddingVertical: 20,
+    paddingVertical: spacing.lg,
     alignItems: 'center',
   },
   footerText: {
-    fontSize: 14,
-    color: '#999999',
+    fontSize: fontSize.xs + 1,
+    color: colors.gray500,
   },
 });

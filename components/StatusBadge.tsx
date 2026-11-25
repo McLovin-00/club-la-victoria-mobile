@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { sharedStyles } from '../styles/shared.styles';
+import { View, Text } from 'react-native';
+import { colors, sharedStyles } from '../styles/shared.styles';
 import { EstadoPersona } from '../constants/estado-persona';
 
 interface StatusBadgeProps {
@@ -9,7 +9,6 @@ interface StatusBadgeProps {
 
 /**
  * Componente reutilizable para mostrar el estado de un socio
- * @param estado - Estado del socio (ACTIVO/INACTIVO)
  */
 export function StatusBadge({ estado }: StatusBadgeProps) {
   const isActive = estado === EstadoPersona.ACTIVO;
@@ -21,6 +20,12 @@ export function StatusBadge({ estado }: StatusBadgeProps) {
         isActive ? sharedStyles.activeBadge : sharedStyles.inactiveBadge,
       ]}
     >
+      <View
+        style={[
+          sharedStyles.statusDot,
+          { backgroundColor: isActive ? colors.successText : colors.errorText },
+        ]}
+      />
       <Text
         style={[
           sharedStyles.statusText,
